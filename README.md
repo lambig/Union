@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.com/lambig/Either.svg?branch=main)](https://travis-ci.com/lambig/Either)
+[![Build Status](https://app.travis-ci.com/lambig/Either.svg?token=rcXQxJszfB4WCpwsWNgN&branch=main)](https://app.travis-ci.com/lambig/Either)
 # Either
 Easy implementation of Union class-like something
