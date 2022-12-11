@@ -49,49 +49,60 @@ test {
     useJUnitPlatform()
     test.outputs.upToDateWhen {false}
 }
-
-//signing {
-//    sign configurations.archives
-//}
-//
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            pom.project {
-//                name 'Either'
-//                packaging 'jar'
-//                description 'easy tuple implementation'
-//                url 'https://github.com/lambig/Either'
-//
-//                scm {
-//                    connection 'scm:git:https://github.com/lambig/Either'
-//                    url 'https://github.com/lambig/Either'
-//                }
-//
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            artifactId = 'Either'
+//            from components.java
+//            pom {
+//                name = 'Either'
+//                description = 'easy union-like class implementation'
+//                url = 'https://github.com/lambig/Either'
 //                licenses {
 //                    license {
-//                        name 'MIT License'
-//                        url 'https://opensource.org/licenses/MIT'
+//                        name = 'MIT License'
+//                        url = 'https://opensource.org/licenses/MIT'
 //                    }
 //                }
-//
 //                developers {
 //                    developer {
-//                        id 'lambig'
-//                        email 'ceolnua51@gmail.com'
+//                        id = 'lambig'
+//                        name = 'Lambig'
+//                        email = 'ceolnua51@gmail.com'
 //                    }
+//                }
+//                scm {
+//                    connection = 'scm:git:https://github.com/lambig/Either'
+//                    url = 'https://github.com/lambig/Either'
 //                }
 //            }
 //        }
 //    }
+//    repositories {
+//        maven {
+//            name = "OSSRH"
+//            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+//            credentials {
+//                username = ossrhUsername
+//                password = ossrhPassword
+//            }
+//        }
+////        maven {
+////            name = "OSSRH_SNAPSHOT"
+////            url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+////            credentials {
+////                username = ossrhUsername
+////                password = ossrhPassword
+////            }
+////        }
+//
+//    }
+//}
+//
+//signing {
+//    sign publishing.publications.mavenJava
 //}
