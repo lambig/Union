@@ -78,7 +78,7 @@ public final class EitherOf {
         };
     }
 
-    interface LeftProvider<A> {
+    public interface LeftProvider<A> {
         /**
          * Returns Left.Call this method to give type argument of right value.
          *
@@ -88,7 +88,7 @@ public final class EitherOf {
         <B> Left<A, B> r();
     }
 
-    interface RightProvider<B> {
+    public interface RightProvider<B> {
         /**
          * Returns Right.Call this method to give type argument of left value.
          *
