@@ -3,10 +3,7 @@ package io.github.lambig.either;
 import lombok.NonNull;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  * An easy implementation of L | R
@@ -15,6 +12,175 @@ import java.util.function.Function;
  * @param <R> class of Right value
  */
 public interface Either<L, R> {
+
+    /**
+     * returns Function to call asJoined without lambda.
+     *
+     * @param leftResolver  function maps left value to output
+     * @param rightResolver function maps right value to output
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @param <O>           output type
+     * @return Function to resolve value by either argument
+     */
+    static <L, R, O> Function<Either<L, R>, O> toJoinedWith(
+            @NonNull Function<? super L, ? extends O> leftResolver,
+            @NonNull Function<? super R, ? extends O> rightResolver) {
+        return either -> either.asJoined(leftResolver, rightResolver);
+    }
+
+    /**
+     * returns Function to call asJoined without lambda.
+     *
+     * @param biResolver function maps both value to output
+     * @param <L>        class of Left value
+     * @param <R>        class of Right value
+     * @param <O>        output type
+     * @return Function to resolve value by biResolver
+     */
+    static <L, R, O> Function<Either<L, R>, O> toJoinedWith(
+            @NonNull BiFunction<? super L, ? super R, ? extends O> biResolver) {
+        return either -> either.asJoined(biResolver);
+    }
+
+    /**
+     * returns Function to call asJoinedOptional without lambda.
+     *
+     * @param leftResolver  function maps left value to output
+     * @param rightResolver function maps right value to output
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @param <O>           output type
+     * @return Function to resolve value by either argument
+     */
+    static <L, R, O> Function<Either<L, R>, Optional<O>> toJoinedOptionalWith(
+            @NonNull Function<? super L, ? extends O> leftResolver,
+            @NonNull Function<? super R, ? extends O> rightResolver) {
+        return either -> either.asJoinedOptional(leftResolver, rightResolver);
+    }
+
+    /**
+     * returns Function to call asJoinedOptional without lambda.
+     *
+     * @param biResolver function maps both value to output
+     * @param <L>        class of Left value
+     * @param <R>        class of Right value
+     * @param <O>        output type
+     * @return Function to resolve value by biResolver
+     */
+    static <L, R, O> Function<Either<L, R>, Optional<O>> toJoinedOptionalWith(
+            @NonNull BiFunction<? super L, ? super R, ? extends O> biResolver) {
+        return either -> either.asJoinedOptional(biResolver);
+    }
+
+    /**
+     * returns Consumer to call accept without lambda.
+     *
+     * @param leftResolver  consumer accepts left value
+     * @param rightResolver consumer accepts right value
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @return Consumer to resolve value by either argument
+     */
+    static <L, R> Consumer<Either<L, R>> acceptWith(
+            @NonNull Consumer<? super L> leftResolver,
+            @NonNull Consumer<? super R> rightResolver) {
+        return either -> either.accept(leftResolver, rightResolver);
+    }
+
+    /**
+     * returns Consumer to call accept without lambda.
+     *
+     * @param biResolver consumer accepts both value
+     * @param <L>        class of Left value
+     * @param <R>        class of Right value
+     * @return Consumer to resolve value by biResolver
+     */
+    static <L, R> Consumer<Either<L, R>> acceptWith(
+            @NonNull BiConsumer<? super L, ? super R> biResolver) {
+        return either -> either.accept(biResolver);
+    }
+
+    /**
+     * returns Consumer to call acceptLeft without lambda.
+     *
+     * @param leftResolver consumer accepts left value
+     * @param <L>          class of Left value
+     * @param <R>          class of Right value
+     * @return Consumer to resolve value by leftResolver
+     */
+    static <L, R> Consumer<Either<L, R>> acceptLeftWith(
+            @NonNull Consumer<? super L> leftResolver) {
+        return either -> either.acceptLeft(leftResolver);
+    }
+
+    /**
+     * returns Consumer to call acceptRight without lambda.
+     *
+     * @param rightResolver consumer accepts right value
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @return Consumer to resolve value by rightResolver
+     */
+    static <L, R> Consumer<Either<L, R>> acceptRightWith(
+            @NonNull Consumer<? super R> rightResolver) {
+        return either -> either.acceptRight(rightResolver);
+    }
+
+    /**
+     * returns UnaryOperator to call peek without lambda.
+     *
+     * @param leftResolver  consumer accepts left value
+     * @param rightResolver consumer accepts right value
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @return Consumer to resolve value by either argument
+     */
+    static <L, R> UnaryOperator<Either<L, R>> peekWith(
+            @NonNull Consumer<? super L> leftResolver,
+            @NonNull Consumer<? super R> rightResolver) {
+        return either -> either.peek(leftResolver, rightResolver);
+    }
+
+    /**
+     * returns UnaryOperator to call peek without lambda.
+     *
+     * @param biResolver consumer accepts both value
+     * @param <L>        class of Left value
+     * @param <R>        class of Right value
+     * @return Consumer to resolve value by biResolver
+     */
+    static <L, R> UnaryOperator<Either<L, R>> peekWith(
+            @NonNull BiConsumer<? super L, ? super R> biResolver) {
+        return either -> either.peek(biResolver);
+    }
+
+    /**
+     * returns UnaryOperator to call peekLeft without lambda.
+     *
+     * @param leftResolver consumer accepts left value
+     * @param <L>          class of Left value
+     * @param <R>          class of Right value
+     * @return Consumer to resolve value by leftResolver
+     */
+    static <L, R> UnaryOperator<Either<L, R>> peekLeftWith(
+            @NonNull Consumer<? super L> leftResolver) {
+        return either -> either.peekLeft(leftResolver);
+    }
+
+    /**
+     * returns UnaryOperator to call peekRight without lambda.
+     *
+     * @param rightResolver consumer accepts right value
+     * @param <L>           class of Left value
+     * @param <R>           class of Right value
+     * @return Consumer to resolve value by rightResolver
+     */
+    static <L, R> UnaryOperator<Either<L, R>> peekRightWith(
+            @NonNull Consumer<? super R> rightResolver) {
+        return either -> either.peekRight(rightResolver);
+    }
+
     /**
      * Returns left value
      *
@@ -119,7 +285,7 @@ public interface Either<L, R> {
      * @param leftResolver  consumer accepts left value
      * @param rightResolver consumer accepts right value
      */
-    void acceptWith(
+    void accept(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver);
 
@@ -129,21 +295,21 @@ public interface Either<L, R> {
      *
      * @param biResolver consumer accepts both value
      */
-    void acceptWith(@NonNull BiConsumer<? super L, ? super R> biResolver);
+    void accept(@NonNull BiConsumer<? super L, ? super R> biResolver);
 
     /**
      * Make consumer accept left value if it exists.
      *
      * @param leftResolver consumer accepts left value
      */
-    void acceptLeftWith(@NonNull Consumer<? super L> leftResolver);
+    void acceptLeft(@NonNull Consumer<? super L> leftResolver);
 
     /**
      * Make consumer accept right value if it exists.
      *
      * @param rightResolver consumer accepts right value
      */
-    void acceptRightWith(@NonNull Consumer<? super R> rightResolver);
+    void acceptRight(@NonNull Consumer<? super R> rightResolver);
 
     /**
      * Make either consumer accept correspondent value and returns self.
@@ -152,10 +318,10 @@ public interface Either<L, R> {
      * @param rightResolver consumer accepts right value
      * @return self
      */
-    default Either<L, R> peekWith(
+    default Either<L, R> peek(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver) {
-        this.acceptWith(leftResolver, rightResolver);
+        this.accept(leftResolver, rightResolver);
         return this;
     }
 
@@ -166,8 +332,8 @@ public interface Either<L, R> {
      * @param biResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peekWith(@NonNull BiConsumer<? super L, ? super R> biResolver) {
-        this.acceptWith(biResolver);
+    default Either<L, R> peek(@NonNull BiConsumer<? super L, ? super R> biResolver) {
+        this.accept(biResolver);
         return this;
     }
 
@@ -177,8 +343,8 @@ public interface Either<L, R> {
      * @param leftResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peekLeftWith(@NonNull Consumer<? super L> leftResolver) {
-        this.acceptLeftWith(leftResolver);
+    default Either<L, R> peekLeft(@NonNull Consumer<? super L> leftResolver) {
+        this.acceptLeft(leftResolver);
         return this;
     }
 
@@ -188,8 +354,8 @@ public interface Either<L, R> {
      * @param rightResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peekRightWith(@NonNull Consumer<? super R> rightResolver) {
-        this.acceptRightWith(rightResolver);
+    default Either<L, R> peekRight(@NonNull Consumer<? super R> rightResolver) {
+        this.acceptRight(rightResolver);
         return this;
     }
 }

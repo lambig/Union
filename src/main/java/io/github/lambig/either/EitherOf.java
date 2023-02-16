@@ -1,12 +1,11 @@
 package io.github.lambig.either;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Instance provider of Either.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class EitherOf {
 
     /**

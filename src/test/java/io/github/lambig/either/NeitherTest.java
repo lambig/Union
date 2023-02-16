@@ -140,7 +140,7 @@ class NeitherTest {
             };
             //Exercise
             target
-                    .acceptWith(
+                    .accept(
                             objectNoOp,
                             countUp);
             //Verify
@@ -158,7 +158,7 @@ class NeitherTest {
             BiConsumer<Object, Number> countUp =
                     (object, number) -> atomicInteger.addAndGet(Integer.parseInt(Objects.toString(number)));
             //Exercise
-            target.acceptWith(countUp);
+            target.accept(countUp);
             //Verify
             assertThat(atomicInteger).hasValue(0);
         }
@@ -173,7 +173,7 @@ class NeitherTest {
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Exercise
-            target.acceptRightWith(countUp);
+            target.acceptRight(countUp);
             //Verify
             assertThat(atomicLong).hasValue(0L);
         }
@@ -188,7 +188,7 @@ class NeitherTest {
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<String> countUp = nothing -> atomicLong.incrementAndGet();
             //Exercise
-            target.acceptLeftWith(countUp);
+            target.acceptLeft(countUp);
             //Verify
             assertThat(atomicLong).hasValue(0L);
         }

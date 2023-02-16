@@ -53,21 +53,21 @@ public class Neither<L, R> implements Either<L, R> {
 
     @Override
     @Deprecated
-    public void acceptWith(
+    public void accept(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver) {//NOOP
     }
 
     @Override
-    public void acceptLeftWith(@NonNull Consumer<? super L> leftResolver) {//NOOP
+    public void acceptLeft(@NonNull Consumer<? super L> leftResolver) {//NOOP
     }
 
     @Override
-    public void acceptRightWith(@NonNull Consumer<? super R> rightResolver) {//NOOP
+    public void acceptRight(@NonNull Consumer<? super R> rightResolver) {//NOOP
     }
 
     @Override
-    public void acceptWith(@NonNull BiConsumer<? super L, ? super R> biResolver) {//NOOP
+    public void accept(@NonNull BiConsumer<? super L, ? super R> biResolver) {//NOOP
     }
 
 }

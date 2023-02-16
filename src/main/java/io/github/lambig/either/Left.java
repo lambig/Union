@@ -49,22 +49,22 @@ public final class Left<L, R> implements Either<L, R>, Supplier<L> {
     }
 
     @Override
-    public void acceptWith(@NonNull Consumer<? super L> leftResolver, @NonNull Consumer<? super R> rightResolver) {
+    public void accept(@NonNull Consumer<? super L> leftResolver, @NonNull Consumer<? super R> rightResolver) {
         leftResolver.accept(this.left());
     }
 
     @Override
-    public void acceptWith(@NonNull BiConsumer<? super L, ? super R> biResolver) {
+    public void accept(@NonNull BiConsumer<? super L, ? super R> biResolver) {
         biResolver.accept(this.left(), null);
     }
 
     @Override
-    public void acceptLeftWith(@NonNull Consumer<? super L> leftResolver) {
+    public void acceptLeft(@NonNull Consumer<? super L> leftResolver) {
         leftResolver.accept(this.left());
     }
 
     @Override
-    public void acceptRightWith(@NonNull Consumer<? super R> rightResolver) { // NOOP
+    public void acceptRight(@NonNull Consumer<? super R> rightResolver) { // NOOP
     }
 
 
