@@ -35,20 +35,6 @@ class UnionOfVisibilityTest {
     }
 
     @Nested
-    class noneTest {
-        @Test
-        void retrieve_instance() {
-            Union<Long, String> target = UnionOf.none();
-            assertThatThrownBy(target::left)
-                    .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Neither has been requested to return left value");
-            assertThatThrownBy(target::right)
-                    .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Neither has been requested to return right value");
-        }
-    }
-
-    @Nested
     class lTest {
         @Test
         void retrieve_instance() {

@@ -33,17 +33,6 @@ public final class UnionOf {
     }
 
     /**
-     * Returns Union with no value.
-     *
-     * @param <A> Type of left value (doesn't exist)
-     * @param <B> Type of right value (doesn't exist)
-     * @return Neither instance
-     */
-    public static <A, B> Neither<A, B> none() {
-        return Neither.of();
-    }
-
-    /**
      * Returns Union provider with left value.
      * Call this method when you have to explicitly give type argument of right value.
      *

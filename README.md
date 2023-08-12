@@ -9,9 +9,6 @@ Returns instance with left value.
 ### right(R): Right<L, R>
 Returns instance with right value.  
 ```Union<Long, String> union = UnionOf.right("abc");```
-### none(): Neither<L, R>
-Returns instance without any value.  
-```Union<Leng, String> nunion = UnionOf.none();```
 ### l(L): LeftProvider<L>
 Use this in case you need to declare type explicitly.  
 ```UnionOf.l(1L).<String>r();```
