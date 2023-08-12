@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,14 +9,14 @@ import lombok.experimental.Accessors;
 import java.util.function.*;
 
 /**
- * Either with only left value.
+ * Union with only left value.
  *
  * @param <L> type of left value
  * @param <R> type of right value (doesn't exist)
  */
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE, staticName = "of")
 @Accessors(fluent = true)
-public final class Left<L, R> implements Either<L, R>, Supplier<L> {
+public final class Left<L, R> implements Union<L, R>, Supplier<L> {
     @NonNull
     @Getter
     private final L left;
@@ -24,7 +24,7 @@ public final class Left<L, R> implements Either<L, R>, Supplier<L> {
     @Override
     @Deprecated
     public R right() {
-        throw new UnsupportedOperationException("Left value of Either has been requested to return right value");
+        throw new UnsupportedOperationException("Left value of Union has been requested to return right value");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import lombok.NonNull;
 
@@ -11,7 +11,7 @@ import java.util.function.*;
  * @param <L> class of Left value
  * @param <R> class of Right value
  */
-public interface Either<L, R> {
+public interface Union<L, R> {
 
     /**
      * returns Function to call asJoined without lambda.
@@ -23,10 +23,10 @@ public interface Either<L, R> {
      * @param <O>           output type
      * @return Function to resolve value by either argument
      */
-    static <L, R, O> Function<Either<L, R>, O> toJoinedWith(
+    static <L, R, O> Function<Union<L, R>, O> toJoinedWith(
             @NonNull Function<? super L, ? extends O> leftResolver,
             @NonNull Function<? super R, ? extends O> rightResolver) {
-        return either -> either.asJoined(leftResolver, rightResolver);
+        return union -> union.asJoined(leftResolver, rightResolver);
     }
 
     /**
@@ -38,9 +38,9 @@ public interface Either<L, R> {
      * @param <O>        output type
      * @return Function to resolve value by biResolver
      */
-    static <L, R, O> Function<Either<L, R>, O> toJoinedWith(
+    static <L, R, O> Function<Union<L, R>, O> toJoinedWith(
             @NonNull BiFunction<? super L, ? super R, ? extends O> biResolver) {
-        return either -> either.asJoined(biResolver);
+        return union -> union.asJoined(biResolver);
     }
 
     /**
@@ -53,10 +53,10 @@ public interface Either<L, R> {
      * @param <O>           output type
      * @return Function to resolve value by either argument
      */
-    static <L, R, O> Function<Either<L, R>, Optional<O>> toJoinedOptionalWith(
+    static <L, R, O> Function<Union<L, R>, Optional<O>> toJoinedOptionalWith(
             @NonNull Function<? super L, ? extends O> leftResolver,
             @NonNull Function<? super R, ? extends O> rightResolver) {
-        return either -> either.asJoinedOptional(leftResolver, rightResolver);
+        return union -> union.asJoinedOptional(leftResolver, rightResolver);
     }
 
     /**
@@ -68,9 +68,9 @@ public interface Either<L, R> {
      * @param <O>        output type
      * @return Function to resolve value by biResolver
      */
-    static <L, R, O> Function<Either<L, R>, Optional<O>> toJoinedOptionalWith(
+    static <L, R, O> Function<Union<L, R>, Optional<O>> toJoinedOptionalWith(
             @NonNull BiFunction<? super L, ? super R, ? extends O> biResolver) {
-        return either -> either.asJoinedOptional(biResolver);
+        return union -> union.asJoinedOptional(biResolver);
     }
 
     /**
@@ -82,10 +82,10 @@ public interface Either<L, R> {
      * @param <R>           class of Right value
      * @return Consumer to resolve value by either argument
      */
-    static <L, R> Consumer<Either<L, R>> acceptWith(
+    static <L, R> Consumer<Union<L, R>> acceptWith(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver) {
-        return either -> either.accept(leftResolver, rightResolver);
+        return union -> union.accept(leftResolver, rightResolver);
     }
 
     /**
@@ -96,9 +96,9 @@ public interface Either<L, R> {
      * @param <R>        class of Right value
      * @return Consumer to resolve value by biResolver
      */
-    static <L, R> Consumer<Either<L, R>> acceptWith(
+    static <L, R> Consumer<Union<L, R>> acceptWith(
             @NonNull BiConsumer<? super L, ? super R> biResolver) {
-        return either -> either.accept(biResolver);
+        return union -> union.accept(biResolver);
     }
 
     /**
@@ -109,9 +109,9 @@ public interface Either<L, R> {
      * @param <R>          class of Right value
      * @return Consumer to resolve value by leftResolver
      */
-    static <L, R> Consumer<Either<L, R>> acceptLeftWith(
+    static <L, R> Consumer<Union<L, R>> acceptLeftWith(
             @NonNull Consumer<? super L> leftResolver) {
-        return either -> either.acceptLeft(leftResolver);
+        return union -> union.acceptLeft(leftResolver);
     }
 
     /**
@@ -122,9 +122,9 @@ public interface Either<L, R> {
      * @param <R>           class of Right value
      * @return Consumer to resolve value by rightResolver
      */
-    static <L, R> Consumer<Either<L, R>> acceptRightWith(
+    static <L, R> Consumer<Union<L, R>> acceptRightWith(
             @NonNull Consumer<? super R> rightResolver) {
-        return either -> either.acceptRight(rightResolver);
+        return union -> union.acceptRight(rightResolver);
     }
 
     /**
@@ -136,10 +136,10 @@ public interface Either<L, R> {
      * @param <R>           class of Right value
      * @return Consumer to resolve value by either argument
      */
-    static <L, R> UnaryOperator<Either<L, R>> peekWith(
+    static <L, R> UnaryOperator<Union<L, R>> peekWith(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver) {
-        return either -> either.peek(leftResolver, rightResolver);
+        return union -> union.peek(leftResolver, rightResolver);
     }
 
     /**
@@ -150,9 +150,9 @@ public interface Either<L, R> {
      * @param <R>        class of Right value
      * @return Consumer to resolve value by biResolver
      */
-    static <L, R> UnaryOperator<Either<L, R>> peekWith(
+    static <L, R> UnaryOperator<Union<L, R>> peekWith(
             @NonNull BiConsumer<? super L, ? super R> biResolver) {
-        return either -> either.peek(biResolver);
+        return union -> union.peek(biResolver);
     }
 
     /**
@@ -163,9 +163,9 @@ public interface Either<L, R> {
      * @param <R>          class of Right value
      * @return Consumer to resolve value by leftResolver
      */
-    static <L, R> UnaryOperator<Either<L, R>> peekLeftWith(
+    static <L, R> UnaryOperator<Union<L, R>> peekLeftWith(
             @NonNull Consumer<? super L> leftResolver) {
-        return either -> either.peekLeft(leftResolver);
+        return union -> union.peekLeft(leftResolver);
     }
 
     /**
@@ -176,9 +176,9 @@ public interface Either<L, R> {
      * @param <R>           class of Right value
      * @return Consumer to resolve value by rightResolver
      */
-    static <L, R> UnaryOperator<Either<L, R>> peekRightWith(
+    static <L, R> UnaryOperator<Union<L, R>> peekRightWith(
             @NonNull Consumer<? super R> rightResolver) {
-        return either -> either.peekRight(rightResolver);
+        return union -> union.peekRight(rightResolver);
     }
 
     /**
@@ -318,7 +318,7 @@ public interface Either<L, R> {
      * @param rightResolver consumer accepts right value
      * @return self
      */
-    default Either<L, R> peek(
+    default Union<L, R> peek(
             @NonNull Consumer<? super L> leftResolver,
             @NonNull Consumer<? super R> rightResolver) {
         this.accept(leftResolver, rightResolver);
@@ -332,7 +332,7 @@ public interface Either<L, R> {
      * @param biResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peek(@NonNull BiConsumer<? super L, ? super R> biResolver) {
+    default Union<L, R> peek(@NonNull BiConsumer<? super L, ? super R> biResolver) {
         this.accept(biResolver);
         return this;
     }
@@ -343,7 +343,7 @@ public interface Either<L, R> {
      * @param leftResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peekLeft(@NonNull Consumer<? super L> leftResolver) {
+    default Union<L, R> peekLeft(@NonNull Consumer<? super L> leftResolver) {
         this.acceptLeft(leftResolver);
         return this;
     }
@@ -354,7 +354,7 @@ public interface Either<L, R> {
      * @param rightResolver consumer accepts left value
      * @return self
      */
-    default Either<L, R> peekRight(@NonNull Consumer<? super R> rightResolver) {
+    default Union<L, R> peekRight(@NonNull Consumer<? super R> rightResolver) {
         this.acceptRight(rightResolver);
         return this;
     }

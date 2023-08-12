@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -10,13 +10,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Either with no value
+ * Union with no value
  *
  * @param <L> type of left value (doesn't exist)
  * @param <R> type of right value (doesn't exist)
  */
 @NoArgsConstructor(access = AccessLevel.PACKAGE, staticName = "of")
-public class Neither<L, R> implements Either<L, R> {
+public class Neither<L, R> implements Union<L, R> {
     @Override
     @Deprecated
     public L left() {

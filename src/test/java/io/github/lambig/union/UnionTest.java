@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -10,10 +10,10 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static io.github.lambig.either.Either.*;
+import static io.github.lambig.union.Union.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class EitherTest {
+class UnionTest {
 
     @Nested
     class toJoinedWith_2FunctionsTest {
@@ -21,7 +21,7 @@ class EitherTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Function<Long, Number> asNumber = longValue -> (Number) longValue;
             Function<Object, Integer> asInteger = object -> Integer.parseInt(object.toString());
             //Execute
@@ -42,7 +42,7 @@ class EitherTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             BiFunction<Long, Object, Number> asNumber = (longValue, object) -> (Number) longValue;
             //Execute
             Optional<Number> actual = Optional.of(target).map(toJoinedWith(asNumber));
@@ -57,7 +57,7 @@ class EitherTest {
         @Test
         void retrieve_optional_of_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Function<Long, Number> asNumber = longValue -> (Number) longValue;
             Function<Object, Integer> asInteger = object -> Integer.parseInt(object.toString());
             //Execute
@@ -78,7 +78,7 @@ class EitherTest {
         @Test
         void retrieve_optional_of_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             BiFunction<Long, Object, Number> asNumber = (longValue, object) -> (Number) longValue;
             //Execute
             Optional<Number> actual = Optional.of(target).flatMap(toJoinedOptionalWith(asNumber));
@@ -92,7 +92,7 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Consumer<Object> objectNoOp = object -> {
             };
             AtomicLong atomicLong = new AtomicLong(0L);
@@ -110,7 +110,7 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             BiConsumer<Long, Object> countUp = (longValue, object) -> atomicLong.addAndGet(longValue);
             //Execute
@@ -125,7 +125,7 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
@@ -140,7 +140,7 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<String, Long> target = EitherOf.right(3L);
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
@@ -156,13 +156,13 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Consumer<Object> objectNoOp = object -> {
             };
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<Long, String> actual = Optional.of(target)
+            Union<Long, String> actual = Optional.of(target)
                     .map(peekWith(
                             countUp,
                             objectNoOp))
@@ -178,11 +178,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             BiConsumer<Long, Object> countUp = (longValue, object) -> atomicLong.addAndGet(longValue);
             //Execute
-            Either<Long, String> actual = Optional.of(target).map(peekWith(countUp)).orElse(null);
+            Union<Long, String> actual = Optional.of(target).map(peekWith(countUp)).orElse(null);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);
@@ -194,11 +194,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<Long, String> actual = Optional.ofNullable(target).map(peekLeftWith(countUp)).orElse(null);
+            Union<Long, String> actual = Optional.ofNullable(target).map(peekLeftWith(countUp)).orElse(null);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);
@@ -210,11 +210,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<String, Long> target = EitherOf.right(3L);
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<String, Long> actual = Optional.ofNullable(target).map(peekRightWith(countUp)).orElse(null);
+            Union<String, Long> actual = Optional.ofNullable(target).map(peekRightWith(countUp)).orElse(null);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);
@@ -227,7 +227,7 @@ class EitherTest {
         @Test
         void retrieve_optional_of_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Function<Long, Number> toNumber = longValue -> (Number) longValue;
             Function<Object, Integer> toInteger = object -> Integer.parseInt(object.toString());
             //Execute
@@ -245,7 +245,7 @@ class EitherTest {
         @Test
         void retrieve_optional_of_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             BiFunction<Long, Object, Number> toNumber = (longValue, object) -> (Number) longValue;
             //Execute
             Optional<Number> actual = target.asJoinedOptional(toNumber);
@@ -259,13 +259,13 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             Consumer<Object> objectNoOp = object -> {
             };
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<Long, String> actual = target
+            Union<Long, String> actual = target
                     .peek(
                             countUp,
                             objectNoOp);
@@ -280,11 +280,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             BiConsumer<Long, Object> countUp = (longValue, object) -> atomicLong.addAndGet(longValue);
             //Execute
-            Either<Long, String> actual = target.peek(countUp);
+            Union<Long, String> actual = target.peek(countUp);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);
@@ -296,11 +296,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<Long, String> actual = target.peekLeft(countUp);
+            Union<Long, String> actual = target.peekLeft(countUp);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);
@@ -312,11 +312,11 @@ class EitherTest {
         @Test
         void consume_and_return_self() {
             //SetUp
-            Either<String, Long> target = EitherOf.right(3L);
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Execute
-            Either<String, Long> actual = target.peekRight(countUp);
+            Union<String, Long> actual = target.peekRight(countUp);
             //Verify
             assertThat(atomicLong).hasValue(3L);
             assertThat(actual).isEqualTo(target);

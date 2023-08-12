@@ -1,15 +1,15 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import lombok.experimental.UtilityClass;
 
 /**
- * Instance provider of Either.
+ * Instance provider of Union.
  */
 @UtilityClass
-public final class EitherOf {
+public final class UnionOf {
 
     /**
-     * Returns Either with left value.
+     * Returns Union with left value.
      *
      * @param leftValue left value
      * @param <A>       Type of left value
@@ -21,7 +21,7 @@ public final class EitherOf {
     }
 
     /**
-     * Returns Either with right value.
+     * Returns Union with right value.
      *
      * @param rightValue right value
      * @param <A>        Type of left value (doesn't exist)
@@ -33,7 +33,7 @@ public final class EitherOf {
     }
 
     /**
-     * Returns Either with no value.
+     * Returns Union with no value.
      *
      * @param <A> Type of left value (doesn't exist)
      * @param <B> Type of right value (doesn't exist)
@@ -44,7 +44,7 @@ public final class EitherOf {
     }
 
     /**
-     * Returns Either provider with left value.
+     * Returns Union provider with left value.
      * Call this method when you have to explicitly give type argument of right value.
      *
      * @param leftValue left value
@@ -61,7 +61,7 @@ public final class EitherOf {
     }
 
     /**
-     * Returns Either provider with right value.
+     * Returns Union provider with right value.
      * Call this method when you have to explicitly give type argument of left value.
      *
      * @param rightValue right value

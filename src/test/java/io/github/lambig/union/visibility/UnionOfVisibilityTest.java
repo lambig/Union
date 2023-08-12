@@ -1,24 +1,24 @@
-package io.github.lambig.either.visibility;
+package io.github.lambig.union.visibility;
 
-import io.github.lambig.either.Either;
-import io.github.lambig.either.EitherOf;
+import io.github.lambig.union.Union;
+import io.github.lambig.union.UnionOf;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-class EitherOfVisibilityTest {
+class UnionOfVisibilityTest {
 
     @Nested
     class leftTest {
         @Test
         void retrieve_instance() {
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<Long, String> target = UnionOf.left(3L);
             assertThat(target.left()).isEqualTo(3L);
             assertThatThrownBy(target::right)
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Left value of Either has been requested to return right value");
+                    .hasMessage("Left value of Union has been requested to return right value");
         }
     }
 
@@ -26,11 +26,11 @@ class EitherOfVisibilityTest {
     class rightTest {
         @Test
         void retrieve_instance() {
-            Either<Long, String> target = EitherOf.right("abc");
+            Union<Long, String> target = UnionOf.right("abc");
             assertThat(target.right()).isEqualTo("abc");
             assertThatThrownBy(target::left)
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Right value of Either has been requested to return left value");
+                    .hasMessage("Right value of Union has been requested to return left value");
         }
     }
 
@@ -38,7 +38,7 @@ class EitherOfVisibilityTest {
     class noneTest {
         @Test
         void retrieve_instance() {
-            Either<Long, String> target = EitherOf.none();
+            Union<Long, String> target = UnionOf.none();
             assertThatThrownBy(target::left)
                     .isInstanceOf(UnsupportedOperationException.class)
                     .hasMessage("Neither has been requested to return left value");
@@ -52,11 +52,11 @@ class EitherOfVisibilityTest {
     class lTest {
         @Test
         void retrieve_instance() {
-            Either<Long, String> target = EitherOf.l(3L).<String>r();
+            Union<Long, String> target = UnionOf.l(3L).<String>r();
             assertThat(target.left()).isEqualTo(3L);
             assertThatThrownBy(target::right)
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Left value of Either has been requested to return right value");
+                    .hasMessage("Left value of Union has been requested to return right value");
         }
     }
 
@@ -65,11 +65,11 @@ class EitherOfVisibilityTest {
     class rTest {
         @Test
         void retrieve_instance() {
-            Either<Long, String> target = EitherOf.r("abc").<Long>l();
+            Union<Long, String> target = UnionOf.r("abc").<Long>l();
             assertThat(target.right()).isEqualTo("abc");
             assertThatThrownBy(target::left)
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Right value of Either has been requested to return left value");
+                    .hasMessage("Right value of Union has been requested to return left value");
         }
     }
 

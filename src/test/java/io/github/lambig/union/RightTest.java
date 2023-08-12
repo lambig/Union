@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,32 +15,44 @@ import java.util.function.Function;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-class NeitherTest {
+class RightTest {
     @Nested
-    class leftTest {
+    class initializeTest {
         @Test
-        void throws_exception() {
+        void reject_nullValue() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
             //Exercise
-            assertThatThrownBy(target::left)
+            assertThatThrownBy(() -> UnionOf.right(null))
                     //Verify
-                    .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Neither has been requested to return left value");
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage("right is marked non-null but is null");
         }
     }
 
     @Nested
     class rightTest {
         @Test
+        void retrieve_value() {
+            //SetUp
+            Union<String, Long> target = UnionOf.right(3L);
+            //Exercise
+            Long actual = target.right();
+            //Verify
+            assertThat(actual).isEqualTo(3L);
+        }
+    }
+
+    @Nested
+    class leftTest {
+        @Test
         void throws_exception() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             //Exercise
-            assertThatThrownBy(target::right)
+            assertThatThrownBy(target::left)
                     //Verify
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Neither has been requested to return right value");
+                    .hasMessage("Right value of Union has been requested to return left value");
         }
     }
 
@@ -49,11 +61,11 @@ class NeitherTest {
         @Test
         void retrieve_Optional() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             //Exercise
             Optional<Long> actual = target.rightOptional();
             //Verify
-            assertThat(actual).isEmpty();
+            assertThat(actual).hasValue(3L);
         }
     }
 
@@ -62,7 +74,7 @@ class NeitherTest {
         @Test
         void retrieve_Optional() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             //Exercise
             Optional<String> actual = target.leftOptional();
             //Verify
@@ -75,7 +87,7 @@ class NeitherTest {
         @Test
         void returns_false() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             //Exercise
             boolean actual = target.hasLeft();
             //Verify
@@ -88,11 +100,11 @@ class NeitherTest {
         @Test
         void returns_true() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             //Exercise
             boolean actual = target.hasRight();
             //Verify
-            assertThat(actual).isFalse();
+            assertThat(actual).isTrue();
         }
     }
 
@@ -101,7 +113,7 @@ class NeitherTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             Function<Long, Number> toNumber = longValue -> (Number) longValue;
             Function<Object, Integer> toInteger = object -> Integer.parseInt(object.toString());
             //Exercise
@@ -110,7 +122,7 @@ class NeitherTest {
                             toInteger,
                             toNumber);
             //Verify
-            assertThat(actual).isNull();
+            assertThat(actual).isEqualTo(3L);
         }
     }
 
@@ -119,12 +131,12 @@ class NeitherTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             BiFunction<Object, Long, Number> toNumber = (object, longValue) -> (Number) longValue;
             //Exercise
             Number actual = target.asJoined(toNumber);
             //Verify
-            assertThat(actual).isNull();
+            assertThat(actual).isEqualTo(3L);
         }
     }
 
@@ -133,7 +145,7 @@ class NeitherTest {
         @Test
         void invocation_check() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             Consumer<Object> objectNoOp = object -> {
@@ -144,7 +156,7 @@ class NeitherTest {
                             objectNoOp,
                             countUp);
             //Verify
-            assertThat(atomicLong).hasValue(0L);
+            assertThat(atomicLong).hasValue(3L);
         }
     }
 
@@ -153,14 +165,14 @@ class NeitherTest {
         @Test
         void invocation_check() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicInteger atomicInteger = new AtomicInteger(0);
             BiConsumer<Object, Number> countUp =
                     (object, number) -> atomicInteger.addAndGet(Integer.parseInt(Objects.toString(number)));
             //Exercise
             target.accept(countUp);
             //Verify
-            assertThat(atomicInteger).hasValue(0);
+            assertThat(atomicInteger).hasValue(3);
         }
     }
 
@@ -169,13 +181,13 @@ class NeitherTest {
         @Test
         void invocation_check() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             //Exercise
             target.acceptRight(countUp);
             //Verify
-            assertThat(atomicLong).hasValue(0L);
+            assertThat(atomicLong).hasValue(3);
         }
     }
 
@@ -184,13 +196,26 @@ class NeitherTest {
         @Test
         void invocation_check_do_nothing() {
             //SetUp
-            Either<String, Long> target = EitherOf.none();
+            Union<String, Long> target = UnionOf.right(3L);
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<String> countUp = nothing -> atomicLong.incrementAndGet();
             //Exercise
             target.acceptLeft(countUp);
             //Verify
             assertThat(atomicLong).hasValue(0L);
+        }
+    }
+
+    @Nested
+    class getTest {
+        @Test
+        void retrieve_value() {
+            //SetUp
+            Right<String, Long> target = UnionOf.right(3L);
+            //Exercise
+            Long actual = target.get();
+            //Verify
+            assertThat(actual).isEqualTo(3L);
         }
     }
 }

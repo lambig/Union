@@ -1,4 +1,4 @@
-package io.github.lambig.either;
+package io.github.lambig.union;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,30 +15,18 @@ import java.util.function.Function;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-class LeftTest {
-    @Nested
-    class initializeTest {
-        @Test
-        void reject_nullValue() {
-            //SetUp
-            //Exercise
-            assertThatThrownBy(() -> EitherOf.left(null))
-                    //Verify
-                    .isInstanceOf(NullPointerException.class)
-                    .hasMessage("left is marked non-null but is null");
-        }
-    }
-
+class NeitherTest {
     @Nested
     class leftTest {
         @Test
-        void retrieve_value() {
+        void throws_exception() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             //Exercise
-            Long actual = target.left();
-            //Verify
-            assertThat(actual).isEqualTo(3L);
+            assertThatThrownBy(target::left)
+                    //Verify
+                    .isInstanceOf(UnsupportedOperationException.class)
+                    .hasMessage("Neither has been requested to return left value");
         }
     }
 
@@ -47,25 +35,12 @@ class LeftTest {
         @Test
         void throws_exception() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             //Exercise
             assertThatThrownBy(target::right)
                     //Verify
                     .isInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Left value of Either has been requested to return right value");
-        }
-    }
-
-    @Nested
-    class leftOptionalTest {
-        @Test
-        void retrieve_Optional() {
-            //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
-            //Exercise
-            Optional<Long> actual = target.leftOptional();
-            //Verify
-            assertThat(actual).hasValue(3L);
+                    .hasMessage("Neither has been requested to return right value");
         }
     }
 
@@ -74,9 +49,22 @@ class LeftTest {
         @Test
         void retrieve_Optional() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             //Exercise
-            Optional<String> actual = target.rightOptional();
+            Optional<Long> actual = target.rightOptional();
+            //Verify
+            assertThat(actual).isEmpty();
+        }
+    }
+
+    @Nested
+    class leftOptionalTest {
+        @Test
+        void retrieve_Optional() {
+            //SetUp
+            Union<String, Long> target = UnionOf.none();
+            //Exercise
+            Optional<String> actual = target.leftOptional();
             //Verify
             assertThat(actual).isEmpty();
         }
@@ -85,22 +73,22 @@ class LeftTest {
     @Nested
     class hasLeftTest {
         @Test
-        void returns_true() {
+        void returns_false() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             //Exercise
             boolean actual = target.hasLeft();
             //Verify
-            assertThat(actual).isTrue();
+            assertThat(actual).isFalse();
         }
     }
 
     @Nested
     class hasRightTest {
         @Test
-        void returns_false() {
+        void returns_true() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             //Exercise
             boolean actual = target.hasRight();
             //Verify
@@ -113,16 +101,16 @@ class LeftTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             Function<Long, Number> toNumber = longValue -> (Number) longValue;
             Function<Object, Integer> toInteger = object -> Integer.parseInt(object.toString());
             //Exercise
             Number actual = target
                     .asJoined(
-                            toNumber,
-                            toInteger);
+                            toInteger,
+                            toNumber);
             //Verify
-            assertThat(actual).isEqualTo(3L);
+            assertThat(actual).isNull();
         }
     }
 
@@ -131,12 +119,12 @@ class LeftTest {
         @Test
         void retrieve_value() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
-            BiFunction<Long, Object, Number> toNumber = (longValue, object) -> (Number) longValue;
+            Union<String, Long> target = UnionOf.none();
+            BiFunction<Object, Long, Number> toNumber = (object, longValue) -> (Number) longValue;
             //Exercise
             Number actual = target.asJoined(toNumber);
             //Verify
-            assertThat(actual).isEqualTo(3L);
+            assertThat(actual).isNull();
         }
     }
 
@@ -145,7 +133,7 @@ class LeftTest {
         @Test
         void invocation_check() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             AtomicLong atomicLong = new AtomicLong(0L);
             Consumer<Long> countUp = atomicLong::addAndGet;
             Consumer<Object> objectNoOp = object -> {
@@ -153,10 +141,10 @@ class LeftTest {
             //Exercise
             target
                     .accept(
-                            countUp,
-                            objectNoOp);
+                            objectNoOp,
+                            countUp);
             //Verify
-            assertThat(atomicLong).hasValue(3L);
+            assertThat(atomicLong).hasValue(0L);
         }
     }
 
@@ -165,40 +153,25 @@ class LeftTest {
         @Test
         void invocation_check() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             AtomicInteger atomicInteger = new AtomicInteger(0);
-            BiConsumer<Number, Object> countUp =
-                    (number, object) -> atomicInteger.addAndGet(Integer.parseInt(Objects.toString(number)));
+            BiConsumer<Object, Number> countUp =
+                    (object, number) -> atomicInteger.addAndGet(Integer.parseInt(Objects.toString(number)));
             //Exercise
             target.accept(countUp);
             //Verify
-            assertThat(atomicInteger).hasValue(3);
-        }
-    }
-
-    @Nested
-    class acceptLeftWithTest {
-        @Test
-        void invocation_check() {
-            //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
-            AtomicLong atomicLong = new AtomicLong(0L);
-            Consumer<Long> countUp = atomicLong::addAndGet;
-            //Exercise
-            target.acceptLeft(countUp);
-            //Verify
-            assertThat(atomicLong).hasValue(3);
+            assertThat(atomicInteger).hasValue(0);
         }
     }
 
     @Nested
     class acceptRightWithTest {
         @Test
-        void invocation_check_do_nothing() {
+        void invocation_check() {
             //SetUp
-            Either<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
             AtomicLong atomicLong = new AtomicLong(0L);
-            Consumer<String> countUp = nothing -> atomicLong.incrementAndGet();
+            Consumer<Long> countUp = atomicLong::addAndGet;
             //Exercise
             target.acceptRight(countUp);
             //Verify
@@ -207,15 +180,17 @@ class LeftTest {
     }
 
     @Nested
-    class getTest {
+    class acceptLeftWithTest {
         @Test
-        void retrieve_value() {
+        void invocation_check_do_nothing() {
             //SetUp
-            Left<Long, String> target = EitherOf.left(3L);
+            Union<String, Long> target = UnionOf.none();
+            AtomicLong atomicLong = new AtomicLong(0L);
+            Consumer<String> countUp = nothing -> atomicLong.incrementAndGet();
             //Exercise
-            Long actual = target.get();
+            target.acceptLeft(countUp);
             //Verify
-            assertThat(actual).isEqualTo(3L);
+            assertThat(atomicLong).hasValue(0L);
         }
     }
 }

@@ -7,10 +7,10 @@ plugins {
 }
 
 group = 'io.github.lambig'
-archivesBaseName = 'Either'
-version = '0.2.0'
+archivesBaseName = 'Union'
+version = '0.1.0'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
@@ -70,12 +70,12 @@ java {
 //publishing {
 //    publications {
 //        mavenJava(MavenPublication) {
-//            artifactId = 'Either'
+//            artifactId = 'Union'
 //            from components.java
 //            pom {
-//                name = 'Either'
+//                name = 'Union'
 //                description = 'easy union-like class implementation'
-//                url = 'https://github.com/lambig/Either'
+//                url = 'https://github.com/lambig/Union'
 //                licenses {
 //                    license {
 //                        name = 'MIT License'
@@ -90,8 +90,8 @@ java {
 //                    }
 //                }
 //                scm {
-//                    connection = 'scm:git:https://github.com/lambig/Either'
-//                    url = 'https://github.com/lambig/Either'
+//                    connection = 'scm:git:https://github.com/lambig/Union'
+//                    url = 'https://github.com/lambig/Union'
 //                }
 //            }
 //        }
