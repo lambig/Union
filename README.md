@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/lambig/Union.svg?token=rcXQxJszfB4WCpwsWNgN&branch=main)](https://app.travis-ci.com/lambig/Union)
+[![CI](https://github.com/lambig/Union/actions/workflows/ci.yml/badge.svg)](https://github.com/lambig/Union/actions/workflows/ci.yml)
 # Union<L, R>
 Easy implementation of Union class-like something
 ## Instance Provider
