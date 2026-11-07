@@ -10,7 +10,7 @@ mkdir -p "$results"
 java_runtime="${TEST_JAVA_HOME:-$JAVA_HOME}/bin/java"
 repository="$root/build/repository"
 if [ "$mode" = candidate ]; then
-    sh ./gradlew --no-daemon --console=plain check publishMavenJavaPublicationToCandidateRepository > "$results/library.log" 2>&1
+    sh ./gradlew --no-daemon --console=plain check jacocoTestReport publishMavenJavaPublicationToCandidateRepository > "$results/library.log" 2>&1
     python3 .github/scripts/check-documentation.py > "$results/documentation.log"
     python3 .github/scripts/check-compatibility.py "$repository/io/github/lambig/Union/$version/Union-$version.jar" > "$results/compatibility.log" 2>&1
 fi

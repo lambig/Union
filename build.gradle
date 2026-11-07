@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
+    id 'jacoco'
 }
 
 group = 'io.github.lambig'
@@ -38,6 +39,15 @@ tasks.withType(Test).configureEach {
     }
 }
 tasks.withType(Jar).configureEach { from('LICENSE') { into 'META-INF' } }
+
+jacoco { toolVersion = '0.8.14' }
+tasks.named('jacocoTestReport') {
+    dependsOn tasks.named('test')
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
 
 publishing {
     publications {

@@ -37,7 +37,7 @@ jobs:
           java-version: '17'
       - name: Verify library, API compatibility and independent consumers
         run: sh ./verify-consumers.sh candidate
-      - name: Preserve test reports and documentation
+      - name: Preserve test reports, coverage and documentation
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
@@ -46,6 +46,7 @@ jobs:
           path: |
             build/test-results/test/
             build/reports/tests/test/
+            build/reports/jacoco/
             build/libs/*-javadoc.jar
             build/libs/*-sources.jar
             build/consumer-results/

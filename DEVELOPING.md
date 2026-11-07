@@ -14,6 +14,7 @@ sh ./verify-consumers.sh candidate
 候補版は`build/repository`に生成されます。
 導入例は空の一時キャッシュへUnionを取得し、実行時の依存がUnionのJARだけであることも確認します。
 結果は`build/consumer-results/candidate`、試験結果は`build/reports/tests/test`に残ります。
+JaCoCoのHTML・XMLレポートは`build/reports/jacoco/test`に生成され、CIでは各Javaの試験結果とともに保存されます。
 
 ## 導入例の実行
 
