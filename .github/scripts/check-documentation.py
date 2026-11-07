@@ -16,3 +16,12 @@ for classifier, suffix in (("javadoc", ".html"), ("sources", ".java")):
             f"found {content} and {bytecode}"
         )
     print(f"{archives[0]}: {suffix}={content}, .class={bytecode}")
+
+with ZipFile(next(Path('build/libs').glob('*-javadoc.jar'))) as archive:
+    for name, accessor in [('Left', 'left'), ('Right', 'right')]:
+        html = archive.read('io/github/lambig/union/' + name + '.html').decode('utf-8')
+        assert 'id="' + accessor + '()"' in html, name + ': generated accessor missing'
+        assert 'id="get()"' in html, name + ': Supplier method missing'
+    union = archive.read('io/github/lambig/union/Union.html').decode('utf-8')
+    assert 'どちらか一方の値' in union
+print('Generated accessors and Japanese public API descriptions: present')
