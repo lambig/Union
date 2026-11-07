@@ -9,18 +9,29 @@ import lombok.experimental.Accessors;
 import java.util.function.*;
 
 /**
- * Union with only left value.
+ * 左側に非nullの値を保持するUnionです。
+ * {@link #left()}と{@link #get()}でその値を取得でき、左右別の関数・処理には左側のものが選ばれます。
  *
- * @param <L> type of left value
- * @param <R> type of right value (doesn't exist)
+ * @param <L> 左側の値の型
+ * @param <R> 右側の値の型
  */
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE, staticName = "of")
 @Accessors(fluent = true)
 public final class Left<L, R> implements Union<L, R>, Supplier<L> {
+    /**
+     * 左側に保持する値です。
+     * @return 左側に保持する値
+     */
     @NonNull
     @Getter
     private final L left;
 
+    /**
+     * 右側の値を要求したことを例外で通知します。
+     * @return このメソッドは常に例外になります
+     * @throws UnsupportedOperationException 常に発生
+     * @deprecated 左側の値にはleft()、共通の結果にはasJoined()を使います。
+     */
     @Override
     @Deprecated
     public R right() {
@@ -68,6 +79,10 @@ public final class Left<L, R> implements Union<L, R>, Supplier<L> {
     }
 
 
+    /**
+     * 左側の値をSupplierの結果として返します。
+     * @return left()と同じ値
+     */
     @Override
     public L get() {
         return this.left();
