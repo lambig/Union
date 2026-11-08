@@ -32,7 +32,7 @@ java -cp "example/target/classes:$(cat example/target/runtime-classpath.txt)" ex
 left=42; right=invalid; joined=[42, invalid]; events=[left:42, right:invalid]
 ```
 
-Maven Centralへの公開後は、次のコマンドで公開版の依存解決と同じ利用例を確認できます。
+次のコマンドでMaven Centralの公開版0.1.1を取得し、同じ利用例を確認できます。
 
 ```sh
 sh ./verify-consumers.sh public 0.1.1
