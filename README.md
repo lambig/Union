@@ -9,9 +9,8 @@
 
 ## 導入
 
-Java 11以上が対象です。このブランチは0.1.1の公開候補です。
-Maven Centralへの公開後は以下の依存宣言で利用できます。
-候補版の導入確認は[開発・検証手順](DEVELOPING.md)にあります。
+Java 11以上が対象です。0.1.1はMaven Centralから以下の依存宣言で利用できます。
+導入例の実行方法は[開発・検証手順](DEVELOPING.md)にあります。
 
 Gradle:
 
@@ -125,7 +124,7 @@ Unionは生成時の値への参照を保持します。値が可変オブジェ
 
 - [Maven／Gradleの独立した導入例](example/)で値の変換、処理の振り分け、左右の型指定を確認できます。
 - `./gradlew javadoc`で生成したAPI文書は`build/docs/javadoc/index.html`から参照できます。
-- 公開物には同じ版のsources JARとJavadoc JARが含まれます。
+- [0.1.1のJavadoc JAR](https://repo.maven.apache.org/maven2/io/github/lambig/Union/0.1.1/Union-0.1.1-javadoc.jar)を展開すると、`index.html`から同じ版のAPI文書を参照できます。公開物にはsources JARも含まれます。
 - [開発・検証手順](DEVELOPING.md)では、0.1.0でコンパイルした利用コード、Java 11／25、候補版・公開版の導入確認を扱います。
 
 0.1.1では公開設定・文書・利用例を整え、Lombokをビルド時の依存へ整理しました。
